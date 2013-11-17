@@ -1,0 +1,31 @@
+{
+  "name":"webforge\/accounting",
+  "description":"A small library for some basics for invoices",
+  "license":"MIT",
+  "authors":[
+    {
+      "name":"Philipp Scheit",
+      "email":"p.scheit@ps-webforge.com"
+    }
+  ],
+  "minimum-stability":"dev",
+  "require":{
+    
+  },
+  "autoload":{
+    "psr-0":{
+      "Webforge\\Accounting":[
+        "lib\/",
+        "tests\/"
+      ]
+    }
+  },
+  "extra":{
+    "branch-alias":{
+      "dev-master":"1.0.x-dev"
+    }
+  },
+  "require-dev": {
+    "webforge/testplate": "1.*"
+  }
+}
