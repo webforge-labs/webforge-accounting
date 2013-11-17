@@ -19,7 +19,8 @@
     "webforge/types": "1.0.*@dev"
   },
   "require-dev": {
-    "webforge/testplate": "1.*"
+    "webforge/testplate": "1.*",
+    "satooshi/php-coveralls": "dev-master"
   },
   "extra":{
     "branch-alias":{
