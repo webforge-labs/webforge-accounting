@@ -1,8 +1,8 @@
 <?php
 
-namespace Psc\Data\Accounting;
+namespace Webforge\Accounting;
 
-use Psc\Code\Code;
+use InvalidArgumentException;
 
 /**
  * Das Objekt für einen Netto/Brutto Preis
@@ -10,7 +10,7 @@ use Psc\Code\Code;
  * bis jetzt ist das Objekt readonly und das soll auch eignetlich so bleiben (Value Object immutable)
  * $item->setPrice(new Price(xxx)); wäre dann das vorgehen zum Wert ändern
  */
-class Price extends \Psc\Data\ValueObject implements \Psc\Data\Exportable {
+class Price {
   
   const NET = 'netto';
   const GROSS = 'brutto';
@@ -41,7 +41,7 @@ class Price extends \Psc\Data\ValueObject implements \Psc\Data\Exportable {
   protected $precision = 2;
   
   public function __construct($price, $type, $tax, $precision = 2) {
-    Code::value($type, self::NET, self::GROSS);
+    $this->checkValue($type, self::NET, self::GROSS);
     
     if (!is_numeric($price)) {
       throw new \InvalidArgumentException('Preis muss numerisch sein');
@@ -88,7 +88,7 @@ class Price extends \Psc\Data\ValueObject implements \Psc\Data\Exportable {
   }
   
   public function convertTo($type, $precision = NULL) {
-    Code::value($type, self::NET, self::GROSS, self::TAX);
+    $this->checkValue($type, self::NET, self::GROSS, self::TAX);
     if ($type === self::GROSS && $this->tax !== -1) {
       $price = $this->net * (1+$this->tax);
     } elseif ($type === self::TAX) {
@@ -128,5 +128,15 @@ class Price extends \Psc\Data\ValueObject implements \Psc\Data\Exportable {
   public function getTax() {
     return $this->tax;
   }
+
+  protected function checkValue($value) {
+    $values = func_get_args();
+    array_shift($values); // value entfernen
+
+    if (!in_array($value,$values)) {
+      throw new InvalidArgumentException('Wert: "'.$value.'" ist unbekannt / nicht erlaubt. Erlaubt sind: ('.implode('|',$values).')');
+    }
+
+    return $value;
+  }
 }
-?>

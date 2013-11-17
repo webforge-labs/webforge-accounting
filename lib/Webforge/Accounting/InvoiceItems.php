@@ -1,13 +1,13 @@
 <?php
 
-namespace Psc\Data\Accounting;
+namespace Webforge\Accounting;
 
-use Psc\Data\ArrayCollection;
+use Webforge\Collections\ArrayCollection;
 
 /**
  * Wrapper um eine ArrayCollection für InvoiceItems
  */
-class InvoiceItems extends \Psc\SimpleObject {
+class InvoiceItems {
   
   /**
    * @var ArrayCollection
@@ -49,4 +49,3 @@ class InvoiceItems extends \Psc\SimpleObject {
     return $this->unwrap()->toArray();
   }
 }
-?>

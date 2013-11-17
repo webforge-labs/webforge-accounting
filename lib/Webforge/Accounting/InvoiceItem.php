@@ -1,6 +1,6 @@
 <?php
 
-namespace Psc\Data\Accounting;
+namespace Webforge\Accounting;
 
 interface InvoiceItem {
   
@@ -14,7 +14,6 @@ interface InvoiceItem {
    */
   public function getPrice();
   
-
   /**
    * Der "Pos" Eintrag der Rechnung
    * 
@@ -22,10 +21,8 @@ interface InvoiceItem {
    */
   public function getPos();
   
-  
   /**
    * @chainable
    */
   public function setPos($pos);
 }
-?>

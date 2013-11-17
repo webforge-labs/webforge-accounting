@@ -1,14 +1,11 @@
 <?php
 
-namespace Psc\Data\Accounting;
+namespace Webforge\Accounting;
 
-/**
- * @group class:Psc\Data\Accounting\Price
- */
-class PriceTest extends \Psc\Code\Test\Base {
+class PriceTest extends \Webforge\Code\Test\Base {
   
   public function setUp() {
-    $this->chainClass = 'Psc\Data\Accounting\Price';
+    $this->chainClass = 'Webforge\Accounting\Price';
     parent::setUp();
   }
   
@@ -58,4 +55,3 @@ class PriceTest extends \Psc\Code\Test\Base {
   
   // @TODO test bad values
 }
-?>

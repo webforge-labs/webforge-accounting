@@ -1,8 +1,8 @@
 <?php
 
-namespace Psc\Data\Accounting;
+namespace Webforge\Accounting;
 
-class SimpleInvoiceItem extends \Psc\SimpleObject implements InvoiceItem {
+class SimpleInvoiceItem implements InvoiceItem {
   
   protected $label;
   
@@ -52,7 +52,7 @@ class SimpleInvoiceItem extends \Psc\SimpleObject implements InvoiceItem {
 
   
   /**
-   * @param Psc\Data\Accounting\Price $price
+   * @param Webforge\Accounting\Price $price
    * @chainable
    */
   public function setPrice(Price $price) {
@@ -61,12 +61,9 @@ class SimpleInvoiceItem extends \Psc\SimpleObject implements InvoiceItem {
   }
 
   /**
-   * @return Psc\Data\Accounting\Price
+   * @return Webforge\Accounting\Price
    */
   public function getPrice() {
     return $this->price;
   }
-
-
 }
-?>

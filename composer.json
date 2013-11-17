@@ -1,5 +1,5 @@
 {
-  "name":"webforge\/accounting",
+  "name":"webforge/accounting",
   "description":"A small library for some basics for invoices",
   "license":"MIT",
   "authors":[
@@ -9,23 +9,21 @@
     }
   ],
   "minimum-stability":"dev",
-  "require":{
-    
-  },
   "autoload":{
     "psr-0":{
-      "Webforge\\Accounting":[
-        "lib\/",
-        "tests\/"
-      ]
+      "Webforge\\Accounting":[ "lib/", "tests/"]
     }
+  },
+  "require":{
+    "webforge/common": "1.7.*@dev",
+    "webforge/types": "1.0.*@dev"
+  },
+  "require-dev": {
+    "webforge/testplate": "1.*"
   },
   "extra":{
     "branch-alias":{
       "dev-master":"1.0.x-dev"
     }
-  },
-  "require-dev": {
-    "webforge/testplate": "1.*"
   }
 }

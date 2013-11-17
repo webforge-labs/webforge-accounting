@@ -1,10 +1,11 @@
 <?php
 
-namespace Psc\Data\Accounting;
+namespace Webforge\Accounting;
 
-use Psc\Data\PrototypeSet as Data;
-use Psc\Data\Accounting\InvoiceItems;
+use Webforge\Accounting\Set;
+use Webforge\Accounting\InvoiceItems;
 use Webforge\Types\Type;
+use InvalidArgumentException;
 
 /**
  *
@@ -22,7 +23,7 @@ use Webforge\Types\Type;
  * Die Felder die mit get() auf data/person/recipient zugegriffen werden können sieht man in den static create() functions
  * siehe auch Test für Constructor
  */
-class Invoice extends \Psc\SimpleObject {
+class Invoice {
   
   protected $person;
   
@@ -32,9 +33,9 @@ class Invoice extends \Psc\SimpleObject {
   
   protected $items;
   
-  public function __construct(Data $personData,
-                              Data $recipientData,
-                              Data $invoiceData,
+  public function __construct(Set $personData,
+                              Set $recipientData,
+                              Set $invoiceData,
                               InvoiceItems $invoiceItems) {
     
     $this->items = $invoiceItems;
@@ -82,10 +83,10 @@ class Invoice extends \Psc\SimpleObject {
   }
 
   protected static function createData(Array $data, $spec) {
-    $set = new Data();
+    $set = new Set();
     
     $f = function ($field, $type = 'String') use (&$set) {
-      $set->setFieldType($field, Type::create($type));
+      $set->setType($field, Type::create($type));
     };
     
     if ($spec === 'person') {
@@ -113,7 +114,7 @@ class Invoice extends \Psc\SimpleObject {
       $f('performancePeriod');
       $f('text', 'MarkupText');
     } else {
-      throw new \Psc\Exception('unbekannte spec: '.$spec);
+      throw new InvalidArgumentException('unbekannte spec: '.$spec);
     }
     
     // validiert ein bissl

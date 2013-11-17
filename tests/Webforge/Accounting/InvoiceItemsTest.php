@@ -1,14 +1,11 @@
 <?php
 
-namespace Psc\Data\Accounting;
+namespace Webforge\Accounting;
 
-/**
- * @group class:Psc\Data\Accounting\InvoiceItems
- */
-class InvoiceItemsTest extends \Psc\Code\Test\Base {
+class InvoiceItemsTest extends \Webforge\Code\Test\Base {
   
   public function setUp() {
-    $this->chainClass = 'Psc\Data\Accounting\InvoiceItems';
+    $this->chainClass = 'Webforge\Accounting\InvoiceItems';
     parent::setUp();
   }
   
@@ -25,4 +22,3 @@ class InvoiceItemsTest extends \Psc\Code\Test\Base {
     $this->assertEquals(array(1=>$bananen, 2=>$aepfel), $invoiceItems->toArray());
   }
 }
-?>

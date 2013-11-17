@@ -1,13 +1,10 @@
 <?php
 
-namespace Psc\Data\Accounting;
+namespace Webforge\Accounting;
 
-use Psc\DateTime\DateTime;
+use Webforge\Common\DateTime\DateTime;
 
-/**
- * @group class:Psc\Data\Accounting\Invoice
- */
-class InvoiceTest extends \Psc\Code\Test\Base {
+class InvoiceTest extends \Webforge\Code\Test\Base {
   
   public function setUp() {
     $this->chainClass = 'Psc\PHPWord\Invoice';
@@ -67,7 +64,6 @@ Philipp Scheit'
     $this->assertEquals(60435, $invoice->getPerson()->get('address.zip'));
     $this->assertEquals('z.Hd. Frau Dr. Musterdame', $invoice->getRecipient()->get('company.co'));
     
-    $this->assertInstanceOf('Psc\Data\Accounting\InvoiceItems', $invoice->getItems());
+    $this->assertInstanceOf('Webforge\Accounting\InvoiceItems', $invoice->getItems());
   }
 }
-?>
