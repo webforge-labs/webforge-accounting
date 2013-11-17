@@ -44,11 +44,11 @@ class Price {
     $this->checkValue($type, self::NET, self::GROSS);
     
     if (!is_numeric($price)) {
-      throw new \InvalidArgumentException('Preis muss numerisch sein');
+      throw new InvalidArgumentException('Preis muss numerisch sein');
     }
 
     if ($tax !== -1 && (!is_float($tax) || ($tax <= 0))) {
-      throw new \InvalidArgumentException('Tax bitte als positiven Float angeben. 1 = 100%. -1 for no taxes');
+      throw new InvalidArgumentException('Tax bitte als positiven Float angeben. 1 = 100%. -1 for no taxes');
     }
     $this->tax = $tax;
     
@@ -112,7 +112,7 @@ class Price {
       return $this;
     }
       
-    throw new \InvalidArgumentException('Precision muss größer 0 sein und ein int');
+    throw new InvalidArgumentException('Precision muss größer 0 sein und ein int');
   }
 
   /**
