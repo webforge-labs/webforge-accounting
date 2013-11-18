@@ -95,4 +95,21 @@ class PriceTest extends \Webforge\Code\Test\Base {
 
     $this->assertEquals(2, $this->price->getPrecision());
   }
+
+  public function testUsageExample() {
+    $price = new Price(4284, Price::GROSS, 0.19);
+
+    $this->assertEquals(4284, $price->getGross());
+    $this->assertEquals(3600, $price->getNet());
+    $this->assertEquals(0.19, $price->getTax());
+    $this->assertEquals(684, $price->getTaxValue()); // = 4284-3600
+
+    // or construct it the other way round:
+    $price = new Price(3600, Price::NET, 0.19);
+
+    $this->assertEquals(4284, $price->getGross());
+    $this->assertEquals(3600, $price->getNet());
+    $this->assertEquals(0.19, $price->getTax());
+    $this->assertEquals(684, $price->getTaxValue()); // = 4284-3600
+  }
 }

@@ -5,3 +5,7 @@
 [![Latest Stable Version](https://poser.pugx.org/webforge/accounting/version.png)](https://packagist.org/packages/webforge/accounting)  
 
 A small library for some basics for invoices
+
+## Prices
+
+The Webforge\Accounting\Price
