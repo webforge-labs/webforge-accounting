@@ -7,6 +7,7 @@ class PriceTest extends \Webforge\Code\Test\Base {
   public function setUp() {
     $this->chainClass = 'Webforge\Accounting\Price';
     parent::setUp();
+    $this->price = new Price(73.90, Price::NETTO, 0.07);
   }
   
   /**
@@ -18,11 +19,19 @@ class PriceTest extends \Webforge\Code\Test\Base {
     $price = new Price($expectedNetto, Price::NETTO, $tax);
     
     $this->assertEquals($expectedBrutto, $price->convertTo(Price::BRUTTO));
+    $this->assertEquals($expectedBrutto, $price->getGross());
     $this->assertEquals($expectedNetto, $price->convertTo(Price::NETTO));
+    $this->assertEquals($expectedNetto, $price->getNet());
+    $this->assertEquals($tax, $price->getTax());
+    $this->assertEquals($expectedBrutto-$expectedNetto, $price->getTaxValue());
   }
   
   protected function assertTaxFormula($expectedBrutto, $expectedNetto, $tax) {
-    $this->assertEquals((float) round($expectedNetto + $expectedNetto * $tax, 2), (float) round($expectedBrutto, 2), 'Netto Brutto-Test-Werte sind falsch!');
+    if ($tax === -1) {
+      $this->assertEquals($expectedBrutto, $expectedNetto);
+    } else {
+      $this->assertEquals((float) round($expectedNetto + $expectedNetto * $tax, 2), (float) round($expectedBrutto, 2), 'Netto Brutto-Test-Werte sind falsch!');
+    }
   }
 
   /**
@@ -49,9 +58,41 @@ class PriceTest extends \Webforge\Code\Test\Base {
     return Array(
       array(4284, 3600, 0.19),
       array(73.90, 69.07, 0.07),
-      array(0, 0, 0.19)
+      array(0, 0, 0.19),
+      array(73.90, 73.90, -1),
+      array(-73.90, -69.07, 0.07)
     );
   }
   
-  // @TODO test bad values
+  /**
+   * @dataProvider provideBadPrices
+   */
+  public function testBadPrices($price, $type, $tax) {
+    $this->setExpectedException('InvalidArgumentException');
+    new Price($price, $type, $tax);
+  }
+  
+  public static function provideBadPrices() {
+    return Array(
+      array("string", Price::NETTO, 0.19),
+      array(6400, 'wrong', 0.19),
+      array(7234, Price::NETTO, 0),
+      array(7234, Price::NETTO, 8)
+    );
+  }
+
+  public function testExport() {
+    $this->assertInternalType('object', $this->price->export());
+  }
+
+  public function testSetPrecisionWithWrongNumber() {
+    $this->setExpectedException('InvalidArgumentException');
+    $this->price->setPrecision(0);
+  }
+
+  public function testSetPrecisionWithNumber() {
+    $this->price->setPrecision(2);
+
+    $this->assertEquals(2, $this->price->getPrecision());
+  }
 }
