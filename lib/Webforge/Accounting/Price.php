@@ -17,6 +17,8 @@ class Price {
   const BRUTTO = self::GROSS;
   const NETTO = self::NET;
   const TAX = 'taxes';
+
+  const NO_TAXES = -1;
   
   const GERMAN = 'format_german';
   
@@ -44,11 +46,11 @@ class Price {
     $this->checkValue($type, self::NET, self::GROSS);
     
     if (!is_numeric($price)) {
-      throw new InvalidArgumentException('Preis muss numerisch sein');
+      throw new InvalidArgumentException('Price must be numeric');
     }
 
     if ($tax !== -1 && (!is_float($tax) || ($tax <= 0))) {
-      throw new InvalidArgumentException('Tax bitte als positiven Float angeben. 1 = 100%. -1 for no taxes');
+      throw new InvalidArgumentException('Provice tax as positve float: 1 = 100%. Price::NO_TAXES for no taxes');
     }
     $this->tax = $tax;
     
@@ -112,7 +114,7 @@ class Price {
       return $this;
     }
       
-    throw new InvalidArgumentException('Precision muss größer 0 sein und ein int');
+    throw new InvalidArgumentException('Precision has to be an integer greater than 0');
   }
 
   /**
@@ -123,9 +125,14 @@ class Price {
   }
   
   /**
-   * @return float
+   * Returns the current percent value for tax
+   * 
+   * returns 0 for no taxes
+   * @return float 
    */
   public function getTax() {
+    if ($this->tax === self::NO_TAXES) return 0;
+    
     return $this->tax;
   }
 
@@ -134,7 +141,7 @@ class Price {
     array_shift($values); // value entfernen
 
     if (!in_array($value,$values)) {
-      throw new InvalidArgumentException('Wert: "'.$value.'" ist unbekannt / nicht erlaubt. Erlaubt sind: ('.implode('|',$values).')');
+      throw new InvalidArgumentException('Value: "'.$value.'" is not an allowed value. Allowed are: ('.implode('|',$values).')');
     }
 
     return $value;

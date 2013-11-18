@@ -13,16 +13,18 @@ class PriceTest extends \Webforge\Code\Test\Base {
   /**
    * @dataProvider providePrices
    */
-  public function testConstruct_withNetto($expectedBrutto, $expectedNetto, $tax = 0.19) {
+  public function testConstruct_withNetto($expectedBrutto, $expectedNetto, $tax = 0.19, $expectedTax = NULL) {
     $this->assertTaxFormula($expectedBrutto, $expectedNetto, $tax);
     
     $price = new Price($expectedNetto, Price::NETTO, $tax);
+
+    if ($expectedTax === NULL) $expectedTax = $tax;
     
     $this->assertEquals($expectedBrutto, $price->convertTo(Price::BRUTTO));
     $this->assertEquals($expectedBrutto, $price->getGross());
     $this->assertEquals($expectedNetto, $price->convertTo(Price::NETTO));
     $this->assertEquals($expectedNetto, $price->getNet());
-    $this->assertEquals($tax, $price->getTax());
+    $this->assertEquals($expectedTax, $price->getTax());
     $this->assertEquals($expectedBrutto-$expectedNetto, $price->getTaxValue());
   }
   
@@ -59,7 +61,7 @@ class PriceTest extends \Webforge\Code\Test\Base {
       array(4284, 3600, 0.19),
       array(73.90, 69.07, 0.07),
       array(0, 0, 0.19),
-      array(73.90, 73.90, -1),
+      array(73.90, 73.90, Price::NO_TAXES, 0),
       array(-73.90, -69.07, 0.07)
     );
   }
@@ -111,5 +113,14 @@ class PriceTest extends \Webforge\Code\Test\Base {
     $this->assertEquals(3600, $price->getNet());
     $this->assertEquals(0.19, $price->getTax());
     $this->assertEquals(684, $price->getTaxValue()); // = 4284-3600
+  }
+
+  public function testUsageWithoutTaxesExample() {
+    $price = new Price(4284, Price::GROSS, Price::NO_TAXES);
+
+    $this->assertEquals(4284, $price->getGross());
+    $this->assertEquals(4284, $price->getNet());
+    $this->assertEquals(0, $price->getTax());
+    $this->assertEquals(0, $price->getTaxValue());
   }
 }
